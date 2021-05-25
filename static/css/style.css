@@ -1,0 +1,19 @@
+body {
+    background: #F0F0F0;
+    color: #707070;
+    font-family: Futura;
+    font-size: 1em;
+    margin: 0;
+    padding: 0;
+}
+
+.header {
+    text-align: center;
+}
+
+canvas {
+    border: 1px black;
+    margin-right: auto;
+    margin-left: auto;
+    display: block;
+}
