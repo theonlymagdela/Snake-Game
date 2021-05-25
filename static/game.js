@@ -1,21 +1,10 @@
-// --------------------------------------------------------------------------------------------------------------------
-//                                                    The snake game!
-// version: 1.0.0
-// contributors: Magdalena Podolewska, Jakub Jaroszewicz, Dominik Lach, Piotr Młudzik
-// --------------------------------------------------------------------------------------------------------------------
-
-
-// ------------------------------------------------ global constants --------------------------------------------------
-
-// the board size in fields
 const boardFields = {width: 22, height: 16};
 const statusbarFields = {height: 2};
-// the board size in pixels
+
 const fieldSize = 32;
 const boardSize = {width: boardFields.width * fieldSize, height: boardFields.height * fieldSize};
 const statusbarSize = {height: statusbarFields.height * fieldSize};
 
-// the game canvas
 const canvas = document.getElementById('snake');
 const ctx = canvas.getContext('2d');
 ctx.canvas.width  = boardSize.width;
@@ -35,31 +24,19 @@ const gameSound = {
     gameOver: new Audio('audio/squeeze-toy-1.mp3')
 };
 
-
-// ------------------------------------------------ global variables --------------------------------------------------
-
-// the game items
 let snake = [];
 let apple = {x: 0, y: 0};
 
-// the game score
 let score = 0;
 let scoreImage = {x: fieldSize, y: fieldSize};
 
-// the game engine
 let moveDirection;
 let gameSpeed = {value: 250, step: 2};
-
-
-// ------------------------------------------------ common functions --------------------------------------------------
 
 function randomApple() {
     apple.x = Math.floor(Math.random() * boardFields.width) * fieldSize;
     apple.y = Math.floor(Math.random() * boardFields.height + statusbarFields.height) * fieldSize;
 }
-
-
-// -------------------------------------------------- main functions --------------------------------------------------
 
 function gameInit() {
     function createSnake() {
@@ -84,7 +61,6 @@ function gameInit() {
         });
     }
 
-    // --------- gameInit() code ---------
     createSnake();
     randomApple();
     keyboardListenerAdd();
@@ -133,7 +109,6 @@ function gameEngine() {
             ctx.fillText(score, 2 * fieldSize, fieldSize * 1.38 );
         }
 
-        // --------- drawBoard() code ---------
         drawBackground();
         drawSnake();
         drawApple();
@@ -183,7 +158,6 @@ function gameEngine() {
             game = setInterval(gameEngine, gameSpeed.value);
         }
 
-        // --------- snakeUpgrade() code ---------
         gameSound.appleBite.play();
         score++;
         speedGameUp();
@@ -203,7 +177,6 @@ function gameEngine() {
                 return false;
             }
 
-            // --------- isGameOver() code ---------
             return  newSnakeHeadPosition.x < 0
                 || newSnakeHeadPosition.x > boardSize.width - fieldSize
                 || newSnakeHeadPosition.y < statusbarSize.height
@@ -220,22 +193,17 @@ function gameEngine() {
             }
         }
 
-        // --------- moveSnake() code ---------
         let snakeNewHead = {x: newSnakeHeadPosition.x, y: newSnakeHeadPosition.y};
         if (isGameOver()) { endTheGame() }
         snake.unshift(snakeNewHead);
     }
 
-    // --------- gameEngine() code ---------
     let newSnakeHeadPosition = getNewSnakeHeadPosition(snake[0].x, snake[0].y);
     isSnakeBiteApple()? snakeUpgrade(): snakeCutTail();
     moveSnake();
 
     drawBoard();
 }
-
-
-// ------------------------------------------------- main script code -------------------------------------------------
 
 gameInit();
 let game = setInterval(gameEngine, gameSpeed.value);
